@@ -1,4 +1,4 @@
-package cn.edu.szu.mytestproject.algorithm;
+package cn.edu.szu.mytestproject.dp;
 
 /**
  * Author : hengyilin
