@@ -22,8 +22,6 @@ public class AllSortTest {
         for (int i : array) {
             System.out.print(i + " ");
         }
-
-
     }
 
     private static void bubbleSortTest(int[] array) {
