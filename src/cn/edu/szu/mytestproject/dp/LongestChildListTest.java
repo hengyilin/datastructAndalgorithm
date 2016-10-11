@@ -1,5 +1,7 @@
 package cn.edu.szu.mytestproject.dp;
 
+import java.util.Arrays;
+
 /**
  * Author : hengyilin
  * Date   : 16-10-11
@@ -30,7 +32,7 @@ public class LongestChildListTest {
         /*用循环找出dp数组中的最大那个值也即是最长递增子序列的长度
         和达到最长递增子序列的结尾那个数的下标*/
         for (int i = 0; i < dp.length; i++) {
-            if (len > dp[i]) {
+            if (len < dp[i]) {
                 len = dp[i];
                 index = i;
             }
@@ -50,7 +52,7 @@ public class LongestChildListTest {
         return list;
     }
 
-    private int[] findLongestChildList(int[] arr) {
+    public int[] findLongestChildList(int[] arr) {
         if (arr == null || arr.length == 0) {
             return null;
         }
@@ -59,9 +61,52 @@ public class LongestChildListTest {
         return list;
     }
 
-    public void main(String[] args) {
+    /*
+     * 方法二：复杂度O(nlogn)
+     *
+     */
+    private int[] getdp2(int[] array) {
+        int[] dp = new int[array.length];
+        int[] ends = new int[array.length];
+        ends[0] = array[0];
+        dp[0] = 1;
+        int right = 0;
+        int l = 0;
+        int r = 0;
+        int m = 0;
+        for (int i = 1; i < array.length; i++) {
+            l =0;
+            r = right;
+            while (l <= r) {
+                m = (l + r) / 2;
+                if (array[i] > ends[m]) {
+                    l = m + 1;
+                }
+                else {
+                    r = m - 1;
+                }
+            }
+            right = Math.max(right, l);
+            ends[l] = array[i];
+            dp[i] = l + 1;
+        }
+        return dp;
+    }
+
+    public int[] findLongestList(int[] array) {
+        if (array == null || array.length == 0) {
+            return null;
+        }
+        int[] dp = getdp2(array);
+        return generateLis(array, dp);
+    }
+
+    public static void main(String[] args) {
         int[] arr = {2, 1, 5, 3, 6, 4, 8, 9, 7};
-        System.out.println("最长递增子序列为：" + findLongestChildList(arr).toString());
+        LongestChildListTest longestChildListTest = new LongestChildListTest();
+        System.out.println("最长递增子序列为：");
+        String s = Arrays.toString(longestChildListTest.findLongestChildList(arr));
+        System.out.println(s);
 
     }
 }
